@@ -16,5 +16,5 @@ export default function App() {
     return <ActivityIndicator size='large' />;
   }
 
-  return <RegisterScreen />;
+  return <LoginScreen />;
 }

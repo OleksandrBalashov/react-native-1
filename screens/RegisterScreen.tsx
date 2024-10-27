@@ -23,11 +23,6 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const isKeyboardVisible = useKeyboardVisible();
-
-  const formContainerStyle = isKeyboardVisible
-    ? registerStyles.formContainerKeyboard
-    : registerStyles.formContainer;
 
   const handleLoginChange = (value: string) => {
     setLogin(value);
@@ -74,7 +69,7 @@ const RegisterScreen = () => {
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <View style={[styles.formContainer, formContainerStyle]}>
+          <View style={[styles.formContainer, registerStyles.formContainer]}>
             <View style={registerStyles.photoInput}>
               <TouchableOpacity
                 style={registerStyles.iconButton}
@@ -137,9 +132,6 @@ export default RegisterScreen;
 const registerStyles = StyleSheet.create({
   formContainer: {
     height: "65%",
-  },
-  formContainerKeyboard: {
-    height: "82%",
   },
   photoInput: {
     position: "absolute",

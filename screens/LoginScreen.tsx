@@ -16,18 +16,11 @@ import { colors } from "../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { styles } from "../styles/formStyles";
-import { useKeyboardVisible } from "../hooks/useKeyboardVisible";
-import useAnimatedKeyboardHeight from "../hooks/useAnimatedKeyboardHeight";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
-  const isKeyboardVisible = useKeyboardVisible();
-
-  const formContainerStyle = isKeyboardVisible
-    ? loginStyles.formContainerKeyboard
-    : loginStyles.formContainer;
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -67,7 +60,7 @@ const LoginScreen = () => {
           style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <View style={[styles.formContainer, formContainerStyle]}>
+          <View style={[styles.formContainer, loginStyles.formContainer]}>
             <Text style={styles.title}>Увійти</Text>
 
             <View style={[styles.innerContainer, styles.inputContainer]}>
@@ -115,8 +108,5 @@ export default LoginScreen;
 const loginStyles = StyleSheet.create({
   formContainer: {
     height: "50%",
-  },
-  formContainerKeyboard: {
-    height: "60%",
   },
 });
