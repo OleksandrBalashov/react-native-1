@@ -15,12 +15,19 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import { colors } from "../styles/global";
 import { styles } from "../styles/formStyles";
+import { useKeyboardVisible } from "../hooks/useKeyboardVisible";
+import { selectImage } from "../tools/selectImage";
 
 const RegisterScreen = () => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const isKeyboardVisible = useKeyboardVisible();
+
+  const formContainerStyle = isKeyboardVisible
+    ? registerStyles.formContainerKeyboard
+    : registerStyles.formContainer;
 
   const handleLoginChange = (value: string) => {
     setLogin(value);
@@ -45,7 +52,10 @@ const RegisterScreen = () => {
   };
 
   const onRegister = () => {
-    Alert.alert("Credentials", `${login} + ${email} + ${password}`);
+    login &&
+      email &&
+      password &&
+      Alert.alert("Credentials", `${login} + ${email} + ${password}`);
   };
 
   const onSignIn = () => {
@@ -53,66 +63,71 @@ const RegisterScreen = () => {
   };
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.viewContainer}>
         <Image
           source={require("../assets/images/background.png")}
           resizeMode='cover'
           style={styles.image}
         />
-        <View style={[styles.formContainer, registerStyles.container]}>
-          <View style={registerStyles.photoInput}>
-            <TouchableOpacity style={registerStyles.iconButton}>
-              <Text style={registerStyles.iconText}>+</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={registerStyles.inputContainer}>
-            <Text style={styles.title}>Реєстрація</Text>
-            <View style={[styles.innerContainer, styles.inputContainer]}>
-              <Input
-                value={login}
-                autofocus={true}
-                placeholder='Логін'
-                onTextChange={handleLoginChange}
-              />
-
-              <Input
-                value={email}
-                autofocus={true}
-                placeholder='Адреса електронної пошти'
-                onTextChange={handleEmailChange}
-              />
-              <Input
-                value={password}
-                placeholder='Пароль'
-                rightButton={showButton}
-                outerStyles={styles.passwordButton}
-                onTextChange={handlePasswordChange}
-                secureTextEntry={isPasswordVisible}
-              />
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={[styles.formContainer, formContainerStyle]}>
+            <View style={registerStyles.photoInput}>
+              <TouchableOpacity
+                style={registerStyles.iconButton}
+                onPress={selectImage}
+              >
+                <Text style={registerStyles.iconText}>+</Text>
+              </TouchableOpacity>
             </View>
-            <View style={[styles.innerContainer, styles.buttonContainer]}>
-              <Button onPress={onRegister}>
-                <Text style={[styles.baseText, styles.loginButtonText]}>
-                  Зареєструватися
-                </Text>
-              </Button>
+            <View style={registerStyles.inputContainer}>
+              <Text style={styles.title}>Реєстрація</Text>
+              <View style={[styles.innerContainer, styles.inputContainer]}>
+                <Input
+                  value={login}
+                  autofocus={true}
+                  placeholder='Логін'
+                  onTextChange={handleLoginChange}
+                />
 
-              <View style={styles.signUpContainer}>
-                <Text style={[styles.baseText, styles.passwordButtonText]}>
-                  Вже є аккаунт?
-                  <TouchableWithoutFeedback onPress={onSignIn}>
-                    <Text style={styles.signUpText}> Увійти</Text>
-                  </TouchableWithoutFeedback>
-                </Text>
+                <Input
+                  value={email}
+                  autofocus={true}
+                  placeholder='Адреса електронної пошти'
+                  onTextChange={handleEmailChange}
+                />
+                <Input
+                  value={password}
+                  placeholder='Пароль'
+                  rightButton={showButton}
+                  outerStyles={styles.passwordButton}
+                  onTextChange={handlePasswordChange}
+                  secureTextEntry={isPasswordVisible}
+                />
+              </View>
+              <View style={[styles.innerContainer, styles.buttonContainer]}>
+                <Button onPress={onRegister}>
+                  <Text style={[styles.baseText, styles.loginButtonText]}>
+                    Зареєструватися
+                  </Text>
+                </Button>
+
+                <View style={styles.signUpContainer}>
+                  <Text style={[styles.baseText, styles.passwordButtonText]}>
+                    Вже є аккаунт?
+                    <TouchableWithoutFeedback onPress={onSignIn}>
+                      <Text style={styles.signUpText}> Увійти</Text>
+                    </TouchableWithoutFeedback>
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
@@ -120,8 +135,11 @@ const RegisterScreen = () => {
 export default RegisterScreen;
 
 const registerStyles = StyleSheet.create({
-  container: {
+  formContainer: {
     height: "65%",
+  },
+  formContainerKeyboard: {
+    height: "82%",
   },
   photoInput: {
     position: "absolute",
@@ -136,17 +154,17 @@ const registerStyles = StyleSheet.create({
     marginTop: 60,
   },
   iconButton: {
+    position: "absolute",
+    bottom: 10,
+    right: -10,
     width: 25,
     height: 25,
-    borderRadius: 20,
+    borderRadius: 40,
     borderWidth: 1,
     borderColor: colors.orange,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.white,
-    position: "absolute",
-    bottom: 10,
-    right: -10,
   },
   iconText: {
     color: colors.orange,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Alert,
-  Dimensions,
+  Animated,
   Image,
   Keyboard,
   KeyboardAvoidingView,
@@ -15,13 +15,19 @@ import {
 import { colors } from "../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
-
-const { width: SCREEN_WIDTH } = Dimensions.get("screen");
+import { styles } from "../styles/formStyles";
+import { useKeyboardVisible } from "../hooks/useKeyboardVisible";
+import useAnimatedKeyboardHeight from "../hooks/useAnimatedKeyboardHeight";
 
 const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+  const isKeyboardVisible = useKeyboardVisible();
+
+  const formContainerStyle = isKeyboardVisible
+    ? loginStyles.formContainerKeyboard
+    : loginStyles.formContainer;
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -36,7 +42,7 @@ const LoginScreen = () => {
   };
 
   const onLogin = () => {
-    Alert.alert("Credentials", `${email} + ${password}`);
+    email && password && Alert.alert("Credentials", `${email} + ${password}`);
   };
 
   const onSignUp = () => {
@@ -50,119 +56,67 @@ const LoginScreen = () => {
   );
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.viewContainer}>
         <Image
           source={require("../assets/images/background.png")}
           resizeMode='cover'
           style={styles.image}
         />
-        <View style={styles.formContainer}>
-          <Text style={styles.title}>Увійти</Text>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={[styles.formContainer, formContainerStyle]}>
+            <Text style={styles.title}>Увійти</Text>
 
-          <View style={[styles.innerContainer, styles.inputContainer]}>
-            <Input
-              value={email}
-              autofocus={true}
-              placeholder='Адреса електронної пошти'
-              onTextChange={handleEmailChange}
-            />
+            <View style={[styles.innerContainer, styles.inputContainer]}>
+              <Input
+                value={email}
+                autofocus={true}
+                placeholder='Адреса електронної пошти'
+                onTextChange={handleEmailChange}
+              />
 
-            <Input
-              value={password}
-              placeholder='Пароль'
-              rightButton={showButton}
-              outerStyles={styles.passwordButton}
-              onTextChange={handlePasswordChange}
-              secureTextEntry={isPasswordVisible}
-            />
-          </View>
-          <View style={[styles.innerContainer, styles.buttonContainer]}>
-            <Button onPress={onLogin}>
-              <Text style={[styles.baseText, styles.loginButtonText]}>
-                Увійти
-              </Text>
-            </Button>
+              <Input
+                value={password}
+                placeholder='Пароль'
+                rightButton={showButton}
+                outerStyles={styles.passwordButton}
+                onTextChange={handlePasswordChange}
+                secureTextEntry={isPasswordVisible}
+              />
+            </View>
+            <View style={[styles.innerContainer, styles.buttonContainer]}>
+              <Button onPress={onLogin}>
+                <Text style={[styles.baseText, styles.loginButtonText]}>
+                  Увійти
+                </Text>
+              </Button>
 
-            <View style={styles.signUpContainer}>
-              <Text style={[styles.baseText, styles.passwordButtonText]}>
-                Немає акаунту?
-                <TouchableWithoutFeedback onPress={onSignUp}>
-                  <Text style={styles.signUpText}> Зареєструватися</Text>
-                </TouchableWithoutFeedback>
-              </Text>
+              <View style={styles.signUpContainer}>
+                <Text style={[styles.baseText, styles.passwordButtonText]}>
+                  Немає акаунту?
+                  <TouchableWithoutFeedback onPress={onSignUp}>
+                    <Text style={styles.signUpText}> Зареєструватися</Text>
+                  </TouchableWithoutFeedback>
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </View>
     </TouchableWithoutFeedback>
   );
 };
 
 export default LoginScreen;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  innerContainer: {
-    gap: 16,
-  },
-  inputContainer: {
-    marginTop: 32,
-  },
-  buttonContainer: {
-    marginTop: 42,
-  },
-  image: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    height: "100%",
-    width: "100%",
-  },
+const loginStyles = StyleSheet.create({
   formContainer: {
-    width: SCREEN_WIDTH,
     height: "50%",
-    backgroundColor: colors.white,
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
-    paddingHorizontal: 16,
-    paddingTop: 32,
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "500",
-    lineHeight: 36,
-    textAlign: "center",
-  },
-  baseText: {
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 18,
-  },
-  loginButtonText: {
-    color: colors.white,
-    textAlign: "center",
-  },
-  passwordButtonText: {
-    color: colors.blue,
-  },
-  passwordButton: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  signUpContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  signUpText: {
-    textDecorationLine: "underline",
+  formContainerKeyboard: {
+    height: "60%",
   },
 });

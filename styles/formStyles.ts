@@ -4,6 +4,9 @@ import { colors } from "../styles/global";
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
 export const styles = StyleSheet.create({
+  viewContainer: {
+    flex: 1,
+  },
   container: {
     flex: 1,
     alignItems: "center",
@@ -27,7 +30,6 @@ export const styles = StyleSheet.create({
   },
   formContainer: {
     width: SCREEN_WIDTH,
-    height: "50%",
     backgroundColor: colors.white,
     borderTopRightRadius: 25,
     borderTopLeftRadius: 25,

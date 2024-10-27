@@ -13,7 +13,7 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <ActivityIndicator size='large' />; // Показуй індикатор завантаження
+    return <ActivityIndicator size='large' />;
   }
 
   return <RegisterScreen />;
