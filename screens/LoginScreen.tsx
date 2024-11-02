@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   Alert,
-  Animated,
   Image,
   Keyboard,
   KeyboardAvoidingView,
@@ -12,12 +11,12 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { colors } from "../styles/global";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { Props } from "../types";
 import { styles } from "../styles/formStyles";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }: Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
@@ -36,10 +35,11 @@ const LoginScreen = () => {
 
   const onLogin = () => {
     email && password && Alert.alert("Credentials", `${email} + ${password}`);
+    navigation.navigate("Posts");
   };
 
   const onSignUp = () => {
-    console.log("Sign up!");
+    navigation.navigate("Register");
   };
 
   const showButton = (

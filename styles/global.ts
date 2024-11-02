@@ -5,4 +5,6 @@ export const colors = {
   border_gray: "#E8E8E8",
   blue: "#1B4371",
   orange: "#FF6C00",
+  back_opacity: "rgba(33,33,33, 0.8)",
+  text: "#BDBDBD",
 };

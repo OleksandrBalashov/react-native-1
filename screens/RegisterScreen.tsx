@@ -14,11 +14,11 @@ import {
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { colors } from "../styles/global";
-import { styles } from "../styles/formStyles";
-import { useKeyboardVisible } from "../hooks/useKeyboardVisible";
+import { Props } from "../types";
 import { selectImage } from "../tools/selectImage";
+import { styles } from "../styles/formStyles";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ navigation }: Props) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,10 +51,11 @@ const RegisterScreen = () => {
       email &&
       password &&
       Alert.alert("Credentials", `${login} + ${email} + ${password}`);
+    navigation.navigate("Posts");
   };
 
   const onSignIn = () => {
-    console.log("Sign in!");
+    navigation.navigate("Login");
   };
 
   return (

@@ -1,8 +1,8 @@
+import "react-native-gesture-handler";
 import { ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
-
-import LoginScreen from "./screens/LoginScreen";
-import RegisterScreen from "./screens/RegisterScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import StackNavigation from "./navigation/StackNavigation";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -16,5 +16,9 @@ export default function App() {
     return <ActivityIndicator size='large' />;
   }
 
-  return <LoginScreen />;
+  return (
+    <NavigationContainer>
+      <StackNavigation />
+    </NavigationContainer>
+  );
 }
