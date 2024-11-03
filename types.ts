@@ -5,6 +5,7 @@ export interface IComment {
     id: number;
     logoImage: string;
   };
+  id: number;
   comment: string;
   date: string;
 }

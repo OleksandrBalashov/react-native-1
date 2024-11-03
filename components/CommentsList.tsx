@@ -10,32 +10,38 @@ interface IProps {
 const CommentsList = ({ comments }: IProps) => {
   return (
     <ScrollView>
-      {comments.map(({ user: { id, logoImage }, comment, date }) => {
-        const isUserComment = id === admin.id;
+      {comments.map(
+        ({ id: commentId, user: { id, logoImage }, comment, date }) => {
+          const isUserComment = id === admin.id;
 
-        return (
-          <View
-            style={[styles.wrapper, isUserComment && styles.wrapperUserComment]}
-          >
-            <Image
-              src={logoImage}
-              style={[
-                styles.logoImage,
-                isUserComment ? styles.userLogo : styles.logo,
-              ]}
-            />
+          return (
             <View
+              key={commentId}
               style={[
-                styles.containerText,
-                isUserComment ? styles.borderUser : styles.border,
+                styles.wrapper,
+                isUserComment && styles.wrapperUserComment,
               ]}
             >
-              <Text style={styles.comment}>{comment}</Text>
-              <Text style={styles.date}>{date}</Text>
+              <Image
+                src={logoImage}
+                style={[
+                  styles.logoImage,
+                  isUserComment ? styles.userLogo : styles.logo,
+                ]}
+              />
+              <View
+                style={[
+                  styles.containerText,
+                  isUserComment ? styles.borderUser : styles.border,
+                ]}
+              >
+                <Text style={styles.comment}>{comment}</Text>
+                <Text style={styles.date}>{date}</Text>
+              </View>
             </View>
-          </View>
-        );
-      })}
+          );
+        }
+      )}
     </ScrollView>
   );
 };
