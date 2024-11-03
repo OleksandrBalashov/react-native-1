@@ -5,17 +5,18 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { colors } from "../styles/global";
 import CreatePostForm from "../components/CreatePostForm";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import TrashIcon from "../assets/icons/TrashIcon";
 
 const CreatePostScreen = () => {
   return (
-    <View style={styles.container}>
+    <>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
+          style={styles.container}
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <CreatePostForm />
@@ -26,7 +27,7 @@ const CreatePostScreen = () => {
           <TrashIcon />
         </TouchableOpacity>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -55,6 +56,10 @@ const styles = StyleSheet.create({
     height: 40,
     backgroundColor: colors.light_gray,
     borderRadius: 20,
-    marginBottom: "auto",
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 19,
+    color: colors.text,
   },
 });

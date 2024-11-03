@@ -12,7 +12,7 @@ export interface IComment {
 export type RootStackParamList = {
   Register: undefined;
   Login: undefined;
-  Posts: undefined;
+  Home: undefined;
   Comments: {
     image: any;
     comments: IComment[];

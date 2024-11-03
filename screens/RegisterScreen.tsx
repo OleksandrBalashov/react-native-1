@@ -14,12 +14,15 @@ import {
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { colors } from "../styles/global";
-import { NavigationProps } from "../types";
-import { selectImage } from "../tools/selectImage";
+import { RootStackParamList } from "../types";
+
 import { styles } from "../styles/formStyles";
 import UploadPhoto from "../components/UploadPhoto";
+import { StackScreenProps } from "@react-navigation/stack";
 
-const RegisterScreen = ({ navigation }: NavigationProps) => {
+type RegistrationScreenProps = StackScreenProps<RootStackParamList, "Register">;
+
+const RegisterScreen = ({ navigation }: RegistrationScreenProps) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -52,7 +55,7 @@ const RegisterScreen = ({ navigation }: NavigationProps) => {
       email &&
       password &&
       Alert.alert("Credentials", `${login} + ${email} + ${password}`);
-    navigation.navigate("Posts");
+    navigation.navigate("Home");
   };
 
   const onSignIn = () => {

@@ -1,16 +1,35 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Button as ButtonReact,
+} from "react-native";
 import { colors } from "../styles/global";
 import PhotoIcon from "../assets/icons/PhotoIcon";
 import LocationIcon from "../assets/icons/LocationIcon";
 import Button from "./Button";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Input from "./Input";
+import { CameraType, useCameraPermissions, CameraView } from "expo-camera";
+
+const defaultFrom = {
+  name: "",
+  location: "",
+  photoUri: "",
+};
 
 const CreatePostForm = () => {
-  const [form, setForm] = useState({
-    name: "",
-    location: "",
-  });
+  const [form, setForm] = useState(defaultFrom);
+
+  const [cameraPermission, requestCameraPermission] = useCameraPermissions();
+  const [facing, setFacing] = useState<CameraType>("back");
+  const cameraRef = useRef<CameraView | null>(null);
+  const [isCameraVisible, setIsCameraVisible] = useState(false);
+
+  function toggleCameraFacing() {
+    setFacing((current) => (current === "back" ? "front" : "back"));
+  }
 
   const { name, location } = form;
   const isDisabled = !name || !location;
@@ -26,12 +45,70 @@ const CreatePostForm = () => {
 
   const handlePress = () => {
     console.log(form);
+    setForm(defaultFrom);
   };
+
+  const getCameraPermission = async () => {
+    const { status } = await requestCameraPermission();
+    if (status !== "granted") {
+      alert("Ми потребуємо вашої дозволу на використання камери.");
+    }
+  };
+
+  const takePhoto = async () => {
+    const photo = await cameraRef?.current?.takePictureAsync();
+    if (photo) {
+      setForm((prev) => ({ ...prev, photoUri: photo.uri }));
+    }
+  };
+
+  useEffect(() => {
+    getCameraPermission();
+  }, []);
+
+  if (!cameraPermission) {
+    return <View />;
+  }
+
+  if (!cameraPermission.granted) {
+    // Camera permissions are not granted yet.
+    return (
+      <View>
+        <Text style={styles.message}>
+          We need your permission to show the camera
+        </Text>
+        <ButtonReact
+          onPress={requestCameraPermission}
+          title='grant permission'
+        />
+      </View>
+    );
+  }
 
   return (
     <>
       <View style={styles.uploadContainer}>
-        <TouchableOpacity style={styles.uploadWrap}>
+        <TouchableOpacity
+          style={styles.uploadWrap}
+          onPress={() => {
+            setIsCameraVisible(true);
+          }}
+        >
+          {isCameraVisible && (
+            <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity
+                  style={styles.button}
+                  onPress={toggleCameraFacing}
+                >
+                  <Text style={styles.text}>Flip Camera</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={takePhoto}>
+                  <Text style={styles.text}>Take Photo</Text>
+                </TouchableOpacity>
+              </View>
+            </CameraView>
+          )}
           <View style={styles.photoUpload}>
             <PhotoIcon />
           </View>
@@ -68,6 +145,24 @@ const CreatePostForm = () => {
 export default CreatePostForm;
 
 const styles = StyleSheet.create({
+  message: {
+    textAlign: "center",
+    paddingBottom: 10,
+  },
+  camera: {
+    flex: 1,
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "transparent",
+    margin: 64,
+  },
+  button: {
+    flex: 1,
+    alignSelf: "flex-end",
+    alignItems: "center",
+  },
   uploadContainer: {
     marginBottom: 40,
   },
@@ -88,6 +183,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 40,
     backgroundColor: colors.white,
+    zIndex: 100,
   },
   input: {
     position: "relative",

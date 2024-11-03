@@ -13,10 +13,13 @@ import {
 } from "react-native";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { NavigationProps } from "../types";
+import { RootStackParamList } from "../types";
 import { styles } from "../styles/formStyles";
+import { StackScreenProps } from "@react-navigation/stack";
 
-const LoginScreen = ({ navigation }: NavigationProps) => {
+type LoginScreenProps = StackScreenProps<RootStackParamList, "Login">;
+
+const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
@@ -35,7 +38,7 @@ const LoginScreen = ({ navigation }: NavigationProps) => {
 
   const onLogin = () => {
     email && password && Alert.alert("Credentials", `${email} + ${password}`);
-    navigation.navigate("Posts");
+    navigation.navigate("Home");
   };
 
   const onSignUp = () => {

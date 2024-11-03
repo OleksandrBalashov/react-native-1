@@ -6,11 +6,10 @@ import CommentsScreen from "../screens/CommentsScreen";
 import { RootStackParamList } from "../types";
 import BackButton from "../components/BackButton";
 import MapScreen from "../screens/MapScreen";
-import { RouteProp } from "@react-navigation/native";
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const StackNavigation = () => {
+function StackNavigation() {
   return (
     <Stack.Navigator
       initialRouteName='Login'
@@ -20,7 +19,7 @@ const StackNavigation = () => {
     >
       <Stack.Screen name='Login' component={LoginScreen} />
       <Stack.Screen name='Register' component={RegisterScreen} />
-      <Stack.Screen name='Posts' component={BottomTabNavigator} />
+      <Stack.Screen name='Home' component={BottomTabNavigator} />
       <Stack.Screen
         name='Comments'
         component={CommentsScreen}
@@ -43,6 +42,6 @@ const StackNavigation = () => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 export default StackNavigation;

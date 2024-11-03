@@ -4,7 +4,7 @@ import { colors } from "../styles/global";
 import LocationIcon from "../assets/icons/LocationIcon";
 import { ScrollView } from "react-native-gesture-handler";
 import LikesIcon from "../assets/icons/LikesIcon";
-import { RootStackParamList } from "../types";
+import { IComment, RootStackParamList } from "../types";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 
@@ -21,7 +21,7 @@ interface IPost {
   location: string;
   country: string;
   likes: number;
-  comments: string[];
+  comments: IComment[];
 }
 
 interface IProps {
@@ -39,7 +39,7 @@ const PostsList = ({
 }: IProps) => {
   const navigation = useNavigation<NavigationProp>();
 
-  const commentsHandler = (props: { image: string; comments: string[] }) => {
+  const commentsHandler = (props: { image: any; comments: IComment[] }) => {
     navigation.navigate("Comments", props);
   };
 
