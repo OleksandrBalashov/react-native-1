@@ -1,25 +1,7 @@
 import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
 import { colors } from "../styles/global";
 import PostsList from "../components/PostsList";
-
-const posts = [
-  {
-    id: 1,
-    image: require("../assets/images/forest.jpg"),
-    description: "Ліс",
-    location: "Ivano-Frankivs'k region",
-    country: "Ukraine",
-    messages: [],
-  },
-  {
-    id: 2,
-    image: require("../assets/images/sunrize.jpg"),
-    description: "Сонце",
-    location: "Ivano-Frankivs'k region",
-    country: "Ukraine",
-    messages: [],
-  },
-];
+import { posts } from "../data";
 
 const PostsScreen = () => {
   return (
@@ -37,8 +19,7 @@ const PostsScreen = () => {
           <Text style={styles.profileEmail}>email@example.com</Text>
         </View>
       </View>
-      <PostsList posts={posts} />
-      <View></View>
+      <PostsList posts={posts} isVisibleLocation />
     </View>
   );
 };

@@ -3,13 +3,15 @@ import PostsScreen from "../screens/PostsScreen";
 import CreatePostScreen from "../screens/CreatePostsScreen";
 import BackButton from "../components/BackButton";
 import LogoutButton from "../components/LogoutButton";
+import TabNav from "../components/TabNav";
 import ProfileScreen from "../screens/ProfileScreen";
 
 import ProfileIcon from "../assets/icons/ProfileIcon";
-import { View } from "react-native";
 import PlusIcon from "../assets/icons/PlusIcon";
 import { colors } from "../styles/global";
 import PostsIcon from "../assets/icons/PostsIcon";
+
+const activeTabSvgColor = { stroke: colors.white };
 
 const Tab = createBottomTabNavigator();
 
@@ -36,8 +38,10 @@ const BottomTabNavigator = () => {
         options={{
           title: "Публікації",
           headerRight: () => <LogoutButton />,
-          tabBarIcon: ({ color, size }) => (
-            <PostsIcon color={color} width={size} height={size} />
+          tabBarIcon: ({ focused }) => (
+            <TabNav focused={focused}>
+              <PostsIcon {...(focused && { stroke: colors.white })} />
+            </TabNav>
           ),
         }}
       />
@@ -47,22 +51,10 @@ const BottomTabNavigator = () => {
         options={({ navigation }) => ({
           title: "Створити Публікацію",
           headerLeft: () => <BackButton onPress={() => navigation.goBack()} />,
-
-          tabBarIcon: ({ color, size }) => (
-            <View
-              style={{
-                justifyContent: "center",
-                alignItems: "center",
-                width: 70,
-                height: 40,
-                backgroundColor: colors.orange,
-                borderRadius: 40,
-                paddingTop: 10,
-                paddingLeft: 8,
-              }}
-            >
-              <PlusIcon color={color} width={size} height={size} />
-            </View>
+          tabBarIcon: () => (
+            <TabNav>
+              <PlusIcon />
+            </TabNav>
           ),
           tabBarStyle: { display: "none" },
         })}
@@ -72,9 +64,10 @@ const BottomTabNavigator = () => {
         component={ProfileScreen}
         options={{
           headerShown: false,
-          tabBarStyle: { height: 60 },
-          tabBarIcon: ({ color, size }) => (
-            <ProfileIcon color={color} width={size} height={size} />
+          tabBarIcon: ({ focused }) => (
+            <TabNav focused={focused}>
+              <ProfileIcon {...(focused && activeTabSvgColor)} />
+            </TabNav>
           ),
         }}
       />

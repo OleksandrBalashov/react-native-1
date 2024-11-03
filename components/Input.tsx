@@ -10,6 +10,8 @@ type InputProps = {
   onTextChange: (value: string) => void;
   secureTextEntry?: boolean;
   autofocus?: boolean;
+  leftIcon?: FC;
+  iconStyles?: ViewProps["style"];
 };
 
 const Input: FC<InputProps> = ({
@@ -20,6 +22,8 @@ const Input: FC<InputProps> = ({
   rightButton,
   autofocus = false,
   secureTextEntry = false,
+  leftIcon: Icon,
+  iconStyles,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -44,7 +48,11 @@ const Input: FC<InputProps> = ({
         onFocus={onFocus}
         onBlur={onBlur}
       />
-
+      {Icon && (
+        <View style={iconStyles}>
+          <Icon />
+        </View>
+      )}
       {rightButton}
     </View>
   );

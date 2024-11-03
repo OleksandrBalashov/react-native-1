@@ -14,11 +14,12 @@ import {
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { colors } from "../styles/global";
-import { Props } from "../types";
+import { NavigationProps } from "../types";
 import { selectImage } from "../tools/selectImage";
 import { styles } from "../styles/formStyles";
+import UploadPhoto from "../components/UploadPhoto";
 
-const RegisterScreen = ({ navigation }: Props) => {
+const RegisterScreen = ({ navigation }: NavigationProps) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -71,14 +72,7 @@ const RegisterScreen = ({ navigation }: Props) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <View style={[styles.formContainer, registerStyles.formContainer]}>
-            <View style={registerStyles.photoInput}>
-              <TouchableOpacity
-                style={registerStyles.iconButton}
-                onPress={selectImage}
-              >
-                <Text style={registerStyles.iconText}>+</Text>
-              </TouchableOpacity>
-            </View>
+            <UploadPhoto />
             <View style={registerStyles.inputContainer}>
               <Text style={styles.title}>Реєстрація</Text>
               <View style={[styles.innerContainer, styles.inputContainer]}>
@@ -143,6 +137,12 @@ const registerStyles = StyleSheet.create({
     backgroundColor: colors.light_gray,
     borderRadius: 16,
   },
+  iconText: {
+    color: colors.orange,
+    fontSize: 20,
+    lineHeight: 22,
+    fontWeight: "300",
+  },
   inputContainer: {
     marginTop: 60,
   },
@@ -158,11 +158,5 @@ const registerStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: colors.white,
-  },
-  iconText: {
-    color: colors.orange,
-    fontSize: 20,
-    lineHeight: 22,
-    fontWeight: "300",
   },
 });

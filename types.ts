@@ -1,7 +1,23 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-export type Props = NativeStackScreenProps<{
+export interface IComment {
+  user: {
+    id: number;
+    logoImage: string;
+  };
+  comment: string;
+  date: string;
+}
+
+export type RootStackParamList = {
   Register: undefined;
   Login: undefined;
   Posts: undefined;
-}>;
+  Comments: {
+    image: any;
+    comments: IComment[];
+  };
+  Map: undefined;
+};
+
+export type NavigationProps = NativeStackScreenProps<RootStackParamList>;

@@ -13,10 +13,10 @@ import {
 } from "react-native";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { Props } from "../types";
+import { NavigationProps } from "../types";
 import { styles } from "../styles/formStyles";
 
-const LoginScreen = ({ navigation }: Props) => {
+const LoginScreen = ({ navigation }: NavigationProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
@@ -70,7 +70,6 @@ const LoginScreen = ({ navigation }: Props) => {
                 placeholder='Адреса електронної пошти'
                 onTextChange={handleEmailChange}
               />
-
               <Input
                 value={password}
                 placeholder='Пароль'
