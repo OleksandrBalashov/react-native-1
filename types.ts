@@ -18,7 +18,10 @@ export type RootStackParamList = {
     image: any;
     comments: IComment[];
   };
-  Map: undefined;
+  Map: {
+    latitude: number;
+    longitude: number;
+  };
 };
 
 export type NavigationProps = NativeStackScreenProps<RootStackParamList>;

@@ -3,7 +3,11 @@ export const posts = [
     id: 1,
     image: require("./assets/images/forest.jpg"),
     description: "Ліс",
-    location: "Ivano-Frankivs'k region",
+    location: {
+      name: "Ivano-Frankivs'k region",
+      latitude: 48.160076,
+      longitude: 24.49985,
+    },
     country: "Ukraine",
     userId: 1,
     comments: [
@@ -54,7 +58,11 @@ export const posts = [
     id: 2,
     image: require("./assets/images/sunrize.jpg"),
     description: "Сонце",
-    location: "Ivano-Frankivs'k region",
+    location: {
+      name: "Ivano-Frankivs'k region",
+      latitude: 48.160076,
+      longitude: 24.49985,
+    },
     country: "Ukraine",
     userId: 1,
     comments: [

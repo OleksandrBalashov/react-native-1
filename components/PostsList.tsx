@@ -18,9 +18,13 @@ interface IPost {
   id: number;
   image: any;
   description: string;
-  location: string;
   country: string;
   likes: number;
+  location: {
+    name: string;
+    latitude: number;
+    longitude: number;
+  };
   comments: IComment[];
 }
 
@@ -43,14 +47,22 @@ const PostsList = ({
     navigation.navigate("Comments", props);
   };
 
-  const locationHandler = () => {
-    navigation.navigate("Map");
+  const locationHandler = (props: Omit<IPost["location"], "name">) => {
+    navigation.navigate("Map", props);
   };
 
   return (
     <ScrollView>
       {posts.map(
-        ({ id, image, description, location, country, likes, comments }) => {
+        ({
+          id,
+          image,
+          description,
+          location: { name, latitude, longitude },
+          country,
+          likes,
+          comments,
+        }) => {
           return (
             <View key={id}>
               <View>
@@ -90,11 +102,11 @@ const PostsList = ({
 
                 <TouchableOpacity
                   style={styles.location}
-                  onPress={locationHandler}
+                  onPress={() => locationHandler({ latitude, longitude })}
                 >
                   <LocationIcon />
                   <Text style={styles.locationText}>
-                    {isVisibleLocation && <Text>{location},</Text>} {country}
+                    {isVisibleLocation && <Text>{name},</Text>} {country}
                   </Text>
                 </TouchableOpacity>
               </View>
